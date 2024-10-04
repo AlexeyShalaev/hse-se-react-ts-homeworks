@@ -2,8 +2,8 @@ export type DeepPartial<T> = {
     [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-export type MyCapitalize<T extends string> = T extends `${infer First}${infer Rest}`
-    ? `${Uppercase<First>}${Rest}`
+export type MyCapitalize<T extends string> = T extends `${infer First}${infer Etc}`
+    ? `${Uppercase<First>}${Etc}`
     : T;
 
 export type DeepMutable<T> = {
@@ -11,8 +11,8 @@ export type DeepMutable<T> = {
 };
 
 export type ParseURLParams<StringElem extends string> =
-    StringElem extends `${infer _Start}:${infer Param}/${infer Rest}`
-    ? Param | ParseURLParams<`/${Rest}`>
+    StringElem extends `${infer _Start}:${infer Param}/${infer Etc}`
+    ? Param | ParseURLParams<`/${Etc}`>
     : StringElem extends `${infer _Start}:${infer Param}`
     ? Param
     : never;

@@ -12,28 +12,31 @@ export type Camelize<T> = {
 
 // DeepPick
 
-type Split<S extends string, D extends string> = S extends `${infer T}${D}${infer U}`
-    ? [T, ...Split<U, D>]
+type Split<S extends string, Delimiter extends string> =
+    S extends `${infer Head}${Delimiter}${infer Rest}`
+    ? [Head, ...Split<Rest, Delimiter>]
     : [S];
 
-type DeepPickHelper<T, K extends any[]> =
-    K extends [infer First, ...infer Rest]
+type DeepPickSingle<T, Keys extends any[]> =
+    T extends Array<infer U>
+    ? DeepPickSingle<U, Keys>[]
+    : Keys extends [infer First, ...infer Rest]
     ? First extends keyof T
-    ? Rest extends []
-    ? T[First]
-    : DeepPickHelper<T[First], Rest>
+    ? { [K in First & keyof T]: DeepPickSingle<T[First], Rest> }
     : never
+    : T;
+
+type UnionToIntersection<U> =
+    (U extends any ? (k: U) => void : never) extends (k: infer I) => void
+    ? I
     : never;
 
-type Tail<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never;
+export type DeepPick<T, Paths extends string> = UnionToIntersection<
+    Paths extends any
+    ? DeepPickSingle<T, Split<Paths, '.'>>
+    : never
+>;
 
-export type DeepPick<T, Paths extends string> = {
-    [P in keyof T as P extends Split<Paths, '.'>[0]
-    ? P
-    : never]: P extends keyof T
-    ? DeepPickHelper<T[P], Tail<Split<Paths, '.'>>>
-    : never;
-};
 
 // --------------------- Примеры использования ---------------------
 

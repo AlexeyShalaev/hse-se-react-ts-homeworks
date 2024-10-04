@@ -1,4 +1,5 @@
 "use strict";
+// Camelize
 Object.defineProperty(exports, "__esModule", { value: true });
 var camelizeExample = {
     firstName: "John",
@@ -9,3 +10,12 @@ var camelizeExample = {
     }
 };
 console.log(camelizeExample);
+var dp = {
+    user: {
+        profile: {
+            name: 'John'
+        }
+    },
+    posts: [{ id: 1 }]
+};
+console.log(dp);
