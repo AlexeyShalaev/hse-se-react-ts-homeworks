@@ -26,7 +26,8 @@
 }
 
 .compact-search,
-.compact-select {
+.compact-select,
+.compact-input {
   width: 100%;
   padding: 0.4rem;
   border: 1px solid #e5e5e5;
@@ -40,4 +41,24 @@
   gap: 0.5rem;
   font-size: 0.85rem;
   color: #666;
+}
+
+.price-range {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.price-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
 }
