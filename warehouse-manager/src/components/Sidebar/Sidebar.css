@@ -49,6 +49,11 @@
   gap: 0.5rem;
 }
 
+.price-range input[type="number"] {
+  width: 45%;
+  height: 40px;
+}
+
 .price-values {
   display: flex;
   justify-content: space-between;
