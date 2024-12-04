@@ -39,7 +39,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
       <StyledCard onClick={() => onClick(product)}>
         <CardMedia
           component="img"
-          height="140"
+          height="250"
           image={product.imageUrl || '/placeholder.png'}
           alt={product.name}
         />
