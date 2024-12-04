@@ -1,9 +1,15 @@
 export interface Product {
-  id: number;
+  id: string;
   name: string;
-  description?: string;
-  category: string;
   quantity: number;
   unit: string;
+  description: string;
   imageUrl?: string;
+  category: string;
 }
+
+export type ProductFilter = {
+  search: string;
+  showNonZero: boolean;
+  category: string | null;
+};
