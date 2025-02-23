@@ -1,11 +1,21 @@
 export interface Product {
   id: string;
   name: string;
-  quantity: number;
-  unit: string;
   description: string;
-  imageUrl?: string;
   category: string;
+  stock: number;
+  price: number;
+  createdAt: string;
+  updatedAt: string;
+  imageUrl?: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  description?: string;
 }
 
 export type ProductFilter = {
