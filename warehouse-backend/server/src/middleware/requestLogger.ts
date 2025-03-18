@@ -1,4 +1,4 @@
-import * as morgan from 'morgan';
+import morgan from 'morgan';
 import logger from '../config/logger';
 
 // Создаём middleware для логирования запросов в stdout

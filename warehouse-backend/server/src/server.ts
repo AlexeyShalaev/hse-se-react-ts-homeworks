@@ -1,5 +1,5 @@
-import * as express from 'express';
-import * as cors from 'cors';
+import express from 'express';
+import cors from 'cors';
 import helmet from 'helmet';
 import config from './config/default';
 import requestLogger from './middleware/requestLogger';
@@ -9,6 +9,9 @@ import categoryRoutes from './routes/categoryRoutes';
 import connectDB from './utils/db';
 import logger from './config/logger';
 import { setupSwagger } from './config/swagger';
+import authRoutes from './routes/authRoutes';
+import { authenticateJWT } from './middleware/authMiddleware';
+import cookieParser from 'cookie-parser';
 
 // Инициализация Express
 const app = express();
@@ -23,6 +26,7 @@ connectDB().then(() => {
 });
 
 // Middleware
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
@@ -32,8 +36,9 @@ app.use(requestLogger);
 setupSwagger(app);
 
 // Маршруты
-app.use('/api/products', productRoutes);
-app.use('/api/categories', categoryRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/products', authenticateJWT, productRoutes);
+app.use('/api/categories', authenticateJWT, categoryRoutes);
 
 // Глобальный обработчик ошибок
 app.use(errorHandler);

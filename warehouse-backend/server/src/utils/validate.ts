@@ -11,3 +11,8 @@ export const productSchema = Joi.object({
 export const categorySchema = Joi.object({
     name: Joi.string().min(3).max(50).required(),
 });
+
+export const loginSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+});

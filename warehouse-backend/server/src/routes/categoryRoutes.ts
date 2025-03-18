@@ -104,6 +104,25 @@ router.get('/:id', getCategoryById);
  */
 router.put('/:id', validateRequest(categorySchema), updateCategory);
 
+/**
+ * @swagger
+ * /api/categories/{id}:
+ *   delete:
+ *     summary: Delete a category by ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The category ID
+ *     responses:
+ *       200:
+ *         description: Category deleted
+ *       404:
+ *         description: Category not found
+ */
 router.delete('/:id', deleteCategory);
 
 export default router;
