@@ -15,7 +15,7 @@ beforeAll(async () => {
         email: 'test@example.com',
         password: 'password123',
     });
-    token = res.body.accessToken;
+    token = res.headers['set-cookie'].find(cookie => cookie.startsWith('accessToken')).split(';')[0].split('=')[1];
 });
 
 afterAll(async () => {

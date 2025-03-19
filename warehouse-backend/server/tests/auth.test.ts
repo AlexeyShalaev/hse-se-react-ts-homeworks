@@ -16,7 +16,7 @@ afterAll(async () => {
 describe('Auth API', () => {
     it('should login a user', async () => {
         const res = await request(app).post('/api/auth/login').send({
-            email: 'test@example.com',
+            email: 'new_test_user@example.com',
             password: 'password123',
         });
         expect(res.status).toBe(200);

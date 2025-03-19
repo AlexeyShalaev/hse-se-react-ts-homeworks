@@ -3,19 +3,27 @@ import { app } from '../src/server';
 import mongoose from 'mongoose';
 import config from '../src/config/default';
 import User from '../src/models/User';
+import Category from '../src/models/Category';
+
 
 let token: string;
 let productId: string;
+let categoryId: string;
 
 beforeAll(async () => {
     await mongoose.connect(config.mongoURI);
     await User.deleteMany({});
+
+    // Create Category
+    const category = new Category({ name: 'Test Category' });
+    await category.save();
+    categoryId = category.id;
     
     const res = await request(app).post('/api/auth/login').send({
         email: 'test@example.com',
         password: 'password123',
     });
-    token = res.body.accessToken;
+    token = res.headers['set-cookie'].find(cookie => cookie.startsWith('accessToken')).split(';')[0].split('=')[1];
 });
 
 afterAll(async () => {
@@ -30,7 +38,7 @@ describe('Products API', () => {
             .send({
                 name: 'Test Product',
                 description: 'A test product',
-                category: 'Test Category',
+                category: categoryId.toString(),
                 stock: 100,
                 price: 99.99,
             });
@@ -65,7 +73,7 @@ describe('Products API', () => {
             .send({
                 name: 'Updated Product',
                 description: 'An updated product description',
-                category: 'Updated Category',
+                category: categoryId.toString(),
                 stock: 50,
                 price: 49.99,
             });
