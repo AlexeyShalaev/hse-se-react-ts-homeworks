@@ -7,6 +7,7 @@ import categoriesReducer, { fetchCategories } from './slices/categoriesSlice';
 import userReducer from './slices/userSlice';
 import filtersReducer from './slices/filtersSlice';
 import viewModeReducer from './slices/viewModeSlice';
+import authReducer from './slices/authSlice';
 
 const productsPersistConfig = {
   key: 'products',
@@ -33,6 +34,11 @@ const viewModePersistConfig = {
   storage,
 };
 
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+};
+
 export const store = configureStore({
   reducer: {
     products: persistReducer(productsPersistConfig, productsReducer),
@@ -40,6 +46,7 @@ export const store = configureStore({
     user: persistReducer(userPersistConfig, userReducer),
     filters: persistReducer(filtersPersistConfig, filtersReducer),
     viewMode: persistReducer(viewModePersistConfig, viewModeReducer),
+    auth: persistReducer(authPersistConfig, authReducer),
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
