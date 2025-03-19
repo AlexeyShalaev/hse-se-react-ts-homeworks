@@ -33,6 +33,10 @@ const router = Router();
  *             properties:
  *               name:
  *                 type: string
+ *               groups:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       201:
  *         description: Category created successfully
@@ -96,6 +100,10 @@ router.get('/:id', getCategoryById);
  *             properties:
  *               name:
  *                 type: string
+ *               groups:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       200:
  *         description: Category updated successfully

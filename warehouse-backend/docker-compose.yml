@@ -6,13 +6,3 @@ services:
     ports:
       - "27018:27017"
 
-  server:
-    build: ./server
-    container_name: server
-    restart: always
-    ports:
-      - "5000:5000"
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/warehouse
-    depends_on:
-      - mongo
