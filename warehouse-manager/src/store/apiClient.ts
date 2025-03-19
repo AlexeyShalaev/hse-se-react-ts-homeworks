@@ -1,6 +1,6 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { Product, Category } from '@/types/product';
+import { store } from './store'; // Import the store
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:5000/api', // Update with your backend URL
@@ -11,7 +11,9 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  const accessToken = Cookies.get('accessToken');
+  // const accessToken = Cookies.get('accessToken'); // Remove this line
+  const accessToken = store.getState().auth.accessToken; // Get access token from state
+  console.log('accessToken', accessToken);
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }

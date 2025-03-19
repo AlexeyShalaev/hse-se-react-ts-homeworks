@@ -3,16 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, TextField, Typography, CircularProgress } from '@mui/material';
 import { RootState, AppDispatch } from '@/store/store';
 import { loginAsync } from '@/store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { loading, error } = useSelector((state: RootState) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    await dispatch(loginAsync({ email, password }));
+    const result = await dispatch(loginAsync({ email, password }));
+    if (loginAsync.fulfilled.match(result)) {
+      navigate('/');
+    }
   };
 
   return (
