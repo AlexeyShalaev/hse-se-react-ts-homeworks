@@ -15,14 +15,14 @@ beforeAll(async () => {
     await User.deleteMany({});
 
     // Create Category
-    const category = new Category({ name: 'Test Category' });
+    const category = new Category({ name: 'Test Category for Products', groups: ['user', 'admin'] });
     await category.save();
     categoryId = category.id;
     
     const res = await request(app).post('/api/auth/login').send({
         email: 'test@example.com',
         password: 'password123',
-    });
+    }).set('X-Forwarded-For', '127.0.0.1'); // Set IP address
     token = res.headers['set-cookie'].find(cookie => cookie.startsWith('accessToken')).split(';')[0].split('=')[1];
 });
 
@@ -35,6 +35,7 @@ describe('Products API', () => {
         const res = await request(app)
             .post('/api/products')
             .set('Authorization', `Bearer ${token}`)
+            .set('X-Forwarded-For', '127.0.0.1') // Set IP address
             .send({
                 name: 'Test Product',
                 description: 'A test product',

@@ -10,6 +10,7 @@ export const productSchema = Joi.object({
 
 export const categorySchema = Joi.object({
     name: Joi.string().min(3).max(50).required(),
+    groups: Joi.array().items(Joi.string()).required(), // Add groups validation
 });
 
 export const loginSchema = Joi.object({

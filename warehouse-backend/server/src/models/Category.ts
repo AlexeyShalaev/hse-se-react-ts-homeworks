@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const categorySchema = new mongoose.Schema(
     {
         name: { type: String, required: true, unique: true },
+        groups: { type: [String], required: true, default: ['admin'] }, // Add groups field
     },
     { timestamps: true }
 );

@@ -14,7 +14,7 @@ beforeAll(async () => {
     const res = await request(app).post('/api/auth/login').send({
         email: 'test@example.com',
         password: 'password123',
-    });
+    }).set('X-Forwarded-For', '127.0.0.1'); // Set IP address
     token = res.headers['set-cookie'].find(cookie => cookie.startsWith('accessToken')).split(';')[0].split('=')[1];
 });
 
@@ -27,8 +27,10 @@ describe('Categories API', () => {
         const res = await request(app)
             .post('/api/categories')
             .set('Authorization', `Bearer ${token}`)
+            .set('X-Forwarded-For', '127.0.0.1') // Set IP address
             .send({
                 name: 'Test Category',
+                groups: ['user', 'admin'], // Add groups field
             });
         expect(res.status).toBe(201);
         expect(res.body.name).toBe('Test Category');
@@ -60,6 +62,7 @@ describe('Categories API', () => {
             .set('Authorization', `Bearer ${token}`)
             .send({
                 name: 'Updated Category',
+                groups: ['user', 'admin'], // Add groups field
             });
         expect(res.status).toBe(200);
         expect(res.body.name).toBe('Updated Category');

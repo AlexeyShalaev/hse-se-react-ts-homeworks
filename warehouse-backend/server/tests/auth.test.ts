@@ -18,13 +18,13 @@ describe('Auth API', () => {
         const res = await request(app).post('/api/auth/login').send({
             email: 'new_test_user@example.com',
             password: 'password123',
-        });
+        }).set('X-Forwarded-For', '127.0.0.1'); // Set IP address
         expect(res.status).toBe(200);
         expect(res.body.message).toBe('Logged in successfully');
     });
 
     it('should logout a user', async () => {
-        const res = await request(app).post('/api/auth/logout');
+        const res = await request(app).post('/api/auth/logout').set('X-Forwarded-For', '127.0.0.1'); // Set IP address
         expect(res.status).toBe(204);
         expect(res.body.message).toBeUndefined();
     });
