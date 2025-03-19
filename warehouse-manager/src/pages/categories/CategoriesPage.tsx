@@ -24,7 +24,7 @@ import { Category, fetchCategories, createCategoryAsync, updateCategoryAsync, de
 
 interface CategoryFormData {
   name: string;
-  // description: string;
+  groups: string[]; // Add groups field
 }
 
 export const CategoriesPage: React.FC = () => {
@@ -34,7 +34,7 @@ export const CategoriesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [formData, setFormData] = useState<CategoryFormData>({
     name: '',
-    //description: '',
+    groups: [], // Initialize groups
   });
   const [nameError, setNameError] = useState<string | null>(null);
 
@@ -43,13 +43,11 @@ export const CategoriesPage: React.FC = () => {
       setSelectedCategory(category);
       setFormData({
         name: category.name,
-        //description: category.description || '',
+        groups: category.groups || [], // Set groups
       });
     } else {
       setSelectedCategory(null);
-      setFormData({ name: '',
-         //description: '' 
-        });
+      setFormData({ name: '', groups: [] }); // Reset groups
     }
     setIsDialogOpen(true);
   };
@@ -57,9 +55,7 @@ export const CategoriesPage: React.FC = () => {
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
     setSelectedCategory(null);
-    setFormData({ name: '', 
-      //description: '' 
-    });
+    setFormData({ name: '', groups: [] }); // Reset groups
     setNameError(null);
   };
 
@@ -82,6 +78,11 @@ export const CategoriesPage: React.FC = () => {
     if (name === 'name') {
       setNameError(value.trim() ? null : 'Name is required');
     }
+  };
+
+  const handleGroupsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setFormData({ ...formData, groups: value.split(',').map(group => group.trim()) });
   };
 
   const handleDelete = async (id: string) => {
@@ -125,7 +126,7 @@ export const CategoriesPage: React.FC = () => {
           >
             <ListItemText
               primary={category.name}
-              //secondary={category.description}
+              secondary={`Groups: ${category.groups.join(', ')}`} // Display groups
             />
             <ListItemSecondaryAction>
               <IconButton
@@ -162,6 +163,14 @@ export const CategoriesPage: React.FC = () => {
             helperText={nameError}
             required
             name="name"
+          />
+          <TextField
+            margin="dense"
+            label="Groups (comma separated)"
+            fullWidth
+            value={formData.groups.join(', ')}
+            onChange={handleGroupsChange}
+            name="groups"
           />
         </DialogContent>
         <DialogActions>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, TextField, Typography, CircularProgress } from '@mui/material';
 import { RootState, AppDispatch } from '@/store/store';
@@ -8,9 +8,15 @@ import { useNavigate } from 'react-router-dom';
 export const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading, error, accessToken } = useSelector((state: RootState) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate('/');
+    }
+  }, [accessToken, navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

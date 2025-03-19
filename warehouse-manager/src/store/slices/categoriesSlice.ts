@@ -6,12 +6,14 @@ interface CategoriesState {
   items: Category[];
   loading: boolean;
   error: string | null;
+  groups: string[];
 }
 
 const initialState: CategoriesState = {
   items: [],
   loading: false,
   error: null,
+  groups: [],
 };
 
 export const fetchCategories = createAsyncThunk(
@@ -103,6 +105,5 @@ const categoriesSlice = createSlice({
       });
   },
 });
-
 
 export default categoriesSlice.reducer;

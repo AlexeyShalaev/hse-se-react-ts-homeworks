@@ -51,8 +51,8 @@ export const ProductTable: React.FC<ProductTableProps> = ({
             <TableCell>Image</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Category</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell>Unit</TableCell>
+            <TableCell>Stock</TableCell>
+            <TableCell>Price</TableCell>
             <TableCell>Description</TableCell>
           </TableRow>
         </TableHead>
@@ -98,8 +98,8 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                     {product.name}
                   </TableCell>
                   <TableCell>{getCategoryById(product.category) || 'Unknown'}</TableCell>
-                  <TableCell>{product.quantity}</TableCell>
-                  <TableCell>{product.unit}</TableCell>
+                  <TableCell>{product.stock}</TableCell>
+                  <TableCell>{product.price}</TableCell>
                   <TableCell>{product.description}</TableCell>
                 </TableRow>
               ))}

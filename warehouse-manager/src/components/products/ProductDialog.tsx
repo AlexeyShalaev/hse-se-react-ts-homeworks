@@ -6,12 +6,10 @@ import {
   DialogActions,
   Button,
   TextField,
-  Box,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  Typography,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from '@/types/product';
@@ -26,11 +24,9 @@ interface ProductDialogProps {
 
 interface ProductFormData {
   name: string;
-  stock: number;
-  unit: string;
   description: string;
-  imageUrl: string;
   category: string;
+  stock: number;
   price: number;
 }
 
@@ -45,34 +41,35 @@ export const ProductDialog: React.FC<ProductDialogProps> = ({
     product
       ? {
           name: product.name,
-          stock: product.stock,
-          //unit: product.unit,
           description: product.description,
-          //imageUrl: product.imageUrl || '',
           category: product.category,
+          stock: product.stock,
           price: product.price,
         }
       : {
           name: '',
-          stock: 0,
-          //unit: 'pcs',
           description: '',
-          //imageUrl: '',
           category: '',
+          stock: 0,
           price: 0,
         }
   );
   const [nameError, setNameError] = useState<string | null>(null);
+  const [descriptionError, setDescriptionError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
     if (!formData.name.trim()) {
       setNameError('Name is required');
       return;
     }
+    if (!formData.description.trim()) {
+      setDescriptionError('Description is required');
+      return;
+    }
     if (product) {
-      await dispatch(updateProductAsync({id: product.id, product: {...formData}}));
+      await dispatch(updateProductAsync({ id: product.id, product: { ...formData } }));
     } else {
-      await dispatch(createProductAsync({...formData}));
+      await dispatch(createProductAsync({ ...formData }));
     }
     onClose();
   };
@@ -84,6 +81,9 @@ export const ProductDialog: React.FC<ProductDialogProps> = ({
     setFormData({ ...formData, [name]: name === 'stock' || name === 'price' ? parseFloat(value) : value });
     if (name === 'name') {
       setNameError(value.trim() ? null : 'Name is required');
+    }
+    if (name === 'description') {
+      setDescriptionError(value.trim() ? null : 'Description is required');
     }
   };
 
@@ -107,12 +107,26 @@ export const ProductDialog: React.FC<ProductDialogProps> = ({
         />
         <TextField
           margin="dense"
+          label="Description"
+          fullWidth
+          multiline
+          rows={3}
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          error={!!descriptionError}
+          helperText={descriptionError}
+          required
+        />
+        <TextField
+          margin="dense"
           label="Stock"
           fullWidth
           name="stock"
           type="number"
           value={formData.stock}
           onChange={handleChange}
+          required
         />
         <TextField
           margin="dense"
@@ -122,38 +136,7 @@ export const ProductDialog: React.FC<ProductDialogProps> = ({
           type="number"
           value={formData.price}
           onChange={handleChange}
-        />
-        <FormControl fullWidth margin="dense">
-          <InputLabel id="unit-select-label">Unit</InputLabel>
-          <Select
-            labelId="unit-select-label"
-            id="unit-select"
-            name="unit"
-            value={formData.unit}
-            label="Unit"
-            onChange={handleChange}
-          >
-            <MenuItem value="pcs">pcs</MenuItem>
-            <MenuItem value="boxes">boxes</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          margin="dense"
-          label="Description"
-          fullWidth
-          multiline
-          rows={3}
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Image URL"
-          fullWidth
-          name="imageUrl"
-          value={formData.imageUrl}
-          onChange={handleChange}
+          required
         />
         <FormControl fullWidth margin="dense">
           <InputLabel id="category-select-label">Category</InputLabel>
@@ -164,6 +147,7 @@ export const ProductDialog: React.FC<ProductDialogProps> = ({
             value={formData.category}
             label="Category"
             onChange={handleChange}
+            required
           >
             {categories.map((category) => (
               <MenuItem key={category.id} value={category.id}>
