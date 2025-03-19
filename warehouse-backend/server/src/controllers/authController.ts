@@ -25,7 +25,7 @@ export const login = async (req: Request, res: Response) => {
 
     res.cookie('accessToken', accessToken, { httpOnly: true });
     res.cookie('refreshToken', refreshToken, { httpOnly: true });
-    res.json({ message: 'Logged in successfully' });
+    res.json({ message: 'Logged in successfully', accessToken: accessToken, refreshToken: refreshToken });
 };
 
 export const logout = async (req: Request, res: Response) => {

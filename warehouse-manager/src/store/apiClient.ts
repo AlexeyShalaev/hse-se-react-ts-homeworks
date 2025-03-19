@@ -7,6 +7,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // Allow setting cookies
 });
 
 apiClient.interceptors.request.use((config) => {
@@ -69,12 +70,14 @@ export const deleteCategory = async (id: string): Promise<void> => {
 };
 
 // Auth API calls
-export const login = async (email: string, password: string): Promise<void> => {
-  await apiClient.post('/auth/login', { email, password });
+export const login = async (email: string, password: string) => {
+  const response = await apiClient.post('/auth/login', { email, password });
+  return response;
 };
 
-export const logout = async (): Promise<void> => {
-  await apiClient.post('/auth/logout');
+export const logout = async () => {
+  const response = await apiClient.post('/auth/logout');
+  return response;
 };
 
 export default {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, TextField, Typography, CircularProgress } from '@mui/material';
-import { RootState } from '@/store/store';
+import { RootState, AppDispatch } from '@/store/store';
 import { loginAsync } from '@/store/slices/authSlice';
 
 export const LoginPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { loading, error } = useSelector((state: RootState) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
