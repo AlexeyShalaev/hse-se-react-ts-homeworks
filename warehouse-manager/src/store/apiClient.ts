@@ -68,6 +68,15 @@ export const deleteCategory = async (id: string): Promise<void> => {
   await apiClient.delete(`/categories/${id}`);
 };
 
+// Auth API calls
+export const login = async (email: string, password: string): Promise<void> => {
+  await apiClient.post('/auth/login', { email, password });
+};
+
+export const logout = async (): Promise<void> => {
+  await apiClient.post('/auth/logout');
+};
+
 export default {
   getProducts,
   getProductById,
@@ -79,4 +88,6 @@ export default {
   createCategory,
   updateCategory,
   deleteCategory,
+  login,
+  logout,
 };

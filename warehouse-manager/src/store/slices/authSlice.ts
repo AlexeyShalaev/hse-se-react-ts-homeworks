@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import apiClient from '../apiClient';
+import { Password } from '@mui/icons-material';
 
 interface AuthState {
   accessToken: string | null;
@@ -18,13 +19,12 @@ const initialState: AuthState = {
 export const loginAsync = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }) => {
-    const response = await axios.post('/api/auth/login', credentials);
-    return response.data;
+    await apiClient.login(credentials.email, credentials.password);
   }
 );
 
 export const logoutAsync = createAsyncThunk('auth/logout', async () => {
-  await axios.post('/api/auth/logout');
+  await apiClient.logout();
 });
 
 const authSlice = createSlice({
